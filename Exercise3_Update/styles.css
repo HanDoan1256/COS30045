@@ -136,8 +136,8 @@ footer {
 }
 
 .chart-image {
-  max-width: 50%;
-  height: auto;
+  width: auto;
+  max-height: 50%;
   display: block;
   margin: 1rem auto;
 }
