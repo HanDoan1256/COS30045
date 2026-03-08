@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>TV Energy Data Visualisation</title>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<style>
+body{
+font-family: Arial;
+margin:40px;
+line-height:1.6;
+}
+
+.chart-section{
+margin-bottom:80px;
+}
+
+h2{
+margin-bottom:10px;
+}
+
+p{
+max-width:700px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>TV Energy Consumption and Electricity Price Visualisation</h1>
+
+<p>
+This webpage presents multiple data visualisations exploring television energy consumption 
+and electricity market trends. Using D3.js, different chart types are used to highlight 
+relationships in the dataset and make the data easier to interpret.
+</p>
+
+---
+
+<div class="chart-section">
+
+<h2>Scatter Plot: Energy Consumption vs Energy Star Rating</h2>
+
+<p>
+This scatter plot shows the relationship between the energy star rating of televisions 
+and their annual energy consumption. Each point represents a television model. 
+The chart helps identify whether televisions with higher star ratings tend to 
+consume less electricity.
+</p>
+
+<div id="scatter"></div>
+
+</div>
+
+---
+
+<div class="chart-section">
+
+<h2>Donut Chart: Energy Consumption by Screen Technology</h2>
+
+<p>
+This donut chart illustrates how average energy consumption varies across different 
+television screen technologies such as LED, LCD, and OLED. By aggregating data across 
+all TV sizes, the chart highlights which technologies generally consume more electricity.
+</p>
+
+<div id="donut"></div>
+
+</div>
+
+---
+
+<div class="chart-section">
+
+<h2>Bar Chart: Energy Consumption for 55-inch TVs</h2>
+
+<p>
+This bar chart compares the average yearly energy consumption of 55-inch televisions 
+across different screen technologies. By focusing on a single screen size, the chart 
+provides a clearer comparison of how technology affects energy efficiency.
+</p>
+
+<div id="bar"></div>
+
+</div>
+
+---
+
+<div class="chart-section">
+
+<h2>Line Chart: Australian Electricity Spot Prices (1998–2024)</h2>
+
+<p>
+This line chart visualises the trend of electricity spot prices over time. 
+It helps reveal long-term changes in electricity costs and allows viewers to 
+observe periods of price increases or stability across the dataset.
+</p>
+
+<div id="line"></div>
+
+</div>
+
+<script src="js/scatter.js"></script>
+<script src="js/donut.js"></script>
+<script src="js/bar.js"></script>
+<script src="js/line.js"></script>
+
+</body>
+</html>
