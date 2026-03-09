@@ -1,18 +1,14 @@
 (function(){
 
-const width = 600;
-const height = 400;
-const margin = {top:40,right:40,bottom:60,left:60};
+const width = 900;
+const height = 420;
+const margin = {top:60,right:40,bottom:80,left:90};
 
-const widthBar = 600;
-const heightBar = 400;
-const marginBar = {top:40,right:40,bottom:60,left:80};
-
-const svgBar = d3.select("#bar")
+const svg = d3.select("#bar")
 .append("svg")
 .attr("viewBox",`0 0 ${width} ${height}`)
 .style("width","100%")
-.style("height","auto");
+.style("height","100%");
 
 d3.csv("data/Ex5_TV_energy_55inchtv_byScreenType.csv").then(data=>{
 
@@ -29,15 +25,17 @@ const y = d3.scaleLinear()
 .domain([0,d3.max(data,d=>d.energy)])
 .range([height-margin.bottom,margin.top]);
 
-svgBar.append("g")
+// axes
+svg.append("g")
 .attr("transform",`translate(0,${height-margin.bottom})`)
 .call(d3.axisBottom(x));
 
-svgBar.append("g")
+svg.append("g")
 .attr("transform",`translate(${margin.left},0)`)
 .call(d3.axisLeft(y));
 
-svgBar.selectAll("rect")
+// bars
+svg.selectAll("rect")
 .data(data)
 .enter()
 .append("rect")
@@ -45,7 +43,32 @@ svgBar.selectAll("rect")
 .attr("y",d=>y(d.energy))
 .attr("width",x.bandwidth())
 .attr("height",d=>height-margin.bottom-y(d.energy))
-.attr("fill","orange");
+.attr("fill","#f28e2b");
+
+// title
+svg.append("text")
+.attr("x",width/2)
+.attr("y",30)
+.attr("text-anchor","middle")
+.attr("font-size","18px")
+.attr("font-weight","bold")
+.text("Energy Consumption for 55-inch TVs");
+
+// x label
+svg.append("text")
+.attr("x",width/2)
+.attr("y",height-20)
+.attr("text-anchor","middle")
+.text("Screen Technology");
+
+// y label
+svg.append("text")
+.attr("transform","rotate(-90)")
+.attr("x",-height/2)
+.attr("y",25)
+.attr("text-anchor","middle")
+.text("Average Energy Consumption (kWh/year)");
 
 });
+
 })();
