@@ -33,48 +33,62 @@ function populateFilters(data){
 // update histogram after filtering
 function updateHistogram(filterID, data){
 
-    let updatedData;
+let filteredData;
 
-    // if ALL selected, show all
-    if(filterID === "all"){
-        updatedData = data;
-    } 
-    else {
-        updatedData = data.filter(d => d.screenTech === filterID);
-    }
+// filter dataset
+if(filterID === "all"){
+    filteredData = data;
+}
+else{
+    filteredData = data.filter(d => d.screenTech === filterID);
+}
 
-    // create bins again
-    const bins = binGenerator(updatedData);
+// recompute bins
+const bins = binGenerator(filteredData);
 
-    // update y scale
-    yScale.domain([0, d3.max(bins, d => d.length)]);
+// update scale domains
+xScale.domain([
+    d3.min(bins, d => d.x0),
+    d3.max(bins, d => d.x1)
+]);
 
-    const svg = d3.select("#histogram svg g");
+yScale.domain([
+    0,
+    d3.max(bins, d => d.length)
+]);
 
-    // bind new data
-    const bars = svg.selectAll("rect")
-        .data(bins);
+const svg = d3.select("#histogram svg g");
 
-    // ENTER + UPDATE
-    bars.enter()
-        .append("rect")
-        .merge(bars)
-        .transition()
-        .duration(600)
-        .attr("x", d => xScale(d.x0))
-        .attr("y", d => yScale(d.length))
-        .attr("width", d => xScale(d.x1) - xScale(d.x0) - 1)
-        .attr("height", d => height - yScale(d.length))
-        .attr("fill", barColor);
+// ----- UPDATE BARS -----
 
-    // REMOVE unused bars
-    bars.exit().remove();
+const bars = svg.selectAll("rect")
+    .data(bins);
 
-    // update y-axis
-    svg.select(".y-axis")
-        .transition()
-        .duration(600)
-        .call(d3.axisLeft(yScale));
+bars.enter()
+    .append("rect")
+    .merge(bars)
+    .transition()
+    .duration(600)
+    .attr("x", d => xScale(d.x0))
+    .attr("y", d => yScale(d.length))
+    .attr("width", d => xScale(d.x1) - xScale(d.x0) - 1)
+    .attr("height", d => height - yScale(d.length))
+    .attr("fill", barColor);
+
+bars.exit().remove();
+
+// ----- UPDATE AXES -----
+
+svg.select(".x-axis")
+    .transition()
+    .duration(600)
+    .call(d3.axisBottom(xScale));
+
+svg.select(".y-axis")
+    .transition()
+    .duration(600)
+    .call(d3.axisLeft(yScale));
+
 }
 
 let tooltip;
