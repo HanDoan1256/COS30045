@@ -1,14 +1,14 @@
 (function(){
 
-const width = 600;
-const height = 400;
-const margin = {top:40,right:40,bottom:60,left:60};
+const width = 900;
+const height = 420;
+const margin = {top:60,right:40,bottom:70,left:80};
 
-const svgScatter = d3.select("#scatter")
+const svg = d3.select("#scatter")
 .append("svg")
 .attr("viewBox",`0 0 ${width} ${height}`)
 .style("width","100%")
-.style("height","auto");
+.style("height","100%");
 
 d3.csv("data/Ex5_TV_energy.csv").then(data => {
 
@@ -25,22 +25,50 @@ const y = d3.scaleLinear()
 .domain(d3.extent(data,d=>d.energy_consumpt))
 .range([height-margin.bottom,margin.top]);
 
-svgScatter.append("g")
+// X axis
+svg.append("g")
 .attr("transform",`translate(0,${height-margin.bottom})`)
 .call(d3.axisBottom(x));
 
-svgScatter.append("g")
+// Y axis
+svg.append("g")
 .attr("transform",`translate(${margin.left},0)`)
 .call(d3.axisLeft(y));
 
-svgScatter.selectAll("circle")
+// points
+svg.selectAll("circle")
 .data(data)
 .enter()
 .append("circle")
 .attr("cx",d=>x(d.star2))
 .attr("cy",d=>y(d.energy_consumpt))
 .attr("r",4)
-.attr("fill","steelblue");
+.attr("fill","#2c7fb8")
+.attr("opacity",0.7);
+
+// title
+svg.append("text")
+.attr("x",width/2)
+.attr("y",30)
+.attr("text-anchor","middle")
+.attr("font-size","18px")
+.attr("font-weight","bold")
+.text("Energy Consumption vs Star Rating");
+
+// x label
+svg.append("text")
+.attr("x",width/2)
+.attr("y",height-15)
+.attr("text-anchor","middle")
+.text("Energy Star Rating");
+
+// y label
+svg.append("text")
+.attr("transform","rotate(-90)")
+.attr("x",-height/2)
+.attr("y",20)
+.attr("text-anchor","middle")
+.text("Energy Consumption (kWh/year)");
 
 });
 
