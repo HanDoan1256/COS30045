@@ -37,10 +37,13 @@ svg.selectAll("rect")
     .attr("fill", barColor);
 
 svg.append("g")
-    .attr("transform","translate(0,"+height+")")
+    .attr("class","x-axis")
+    .attr("transform","translate(0," + height + ")")
     .call(d3.axisBottom(xScale));
 
 svg.append("g")
+    .attr("class","y-axis")
     .call(d3.axisLeft(yScale));
 
 }
+
